@@ -88,15 +88,25 @@ function App() {
             justifyContent: 'center',
           }}
         >
-          {/* <Button
+          <Button
             color="primary"
             size="large"
             type="submit"
             variant="contained"
-            onClick={() => getAllPokemons()}
+          // onClick={() => getAllPokemons()}
           >
-            Load More
-          </Button> */}
+            Prev
+          </Button>
+
+          <Button
+            color="primary"
+            size="large"
+            type="submit"
+            variant="contained"
+          // onClick={() => getAllPokemons()}
+          >
+            Next
+          </Button>
         </Box>
 
       </Container>
