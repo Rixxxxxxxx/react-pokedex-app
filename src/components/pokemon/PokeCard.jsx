@@ -1,4 +1,4 @@
-import { Chip, Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { Box, Chip, Card, CardMedia, CardContent, Typography } from '@mui/material'
 
 const PokeCard = ({ id, name, image, type }) => {
     return (
@@ -10,24 +10,26 @@ const PokeCard = ({ id, name, image, type }) => {
                     image={image}
                     alt="pokemon"
                 />
-
-                <div>
+                <Box>
                     <CardContent>
-                        <Typography gutterBottom variant="small" component="div">
-                            0#{id}
+                        <Typography gutterBottom variant="small">
+                            #{id}
                         </Typography>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h5">
                             {name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+
+                        <Typography gutterBottom variant="span">
                             <Chip label={type} />
                         </Typography>
+
                     </CardContent>
-                </div>
+                </Box>
             </Card>
         </>
     )
 
 }
+
 
 export default PokeCard
