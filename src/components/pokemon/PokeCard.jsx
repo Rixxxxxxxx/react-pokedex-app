@@ -1,15 +1,29 @@
-import { Box, Chip, Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { useContext, useEffect, useState } from 'react'
+import { Box, Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
+// import PokemonContext from './PokemonContext'
 
-const PokeCard = ({ id, name, image, type }) => {
+const PokeCard = ({ image, id, name }) => {
+
+    // const { pokemons } = useContext(PokemonContext)
+
     return (
         <>
+
             <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                    component="img"
-                    height="300"
-                    image={image}
-                    alt="pokemon"
-                />
+
+                <Link to={`/pokemon/${name}`}>
+                    <CardMedia
+                        component="img"
+                        image={image}
+                        alt="pokemon"
+                        style={{
+                            width: '130px',
+                            height: '130px',
+                        }}
+                    />
+                </Link>
+
                 <Box>
                     <CardContent>
                         <Typography gutterBottom variant="small">
@@ -18,14 +32,10 @@ const PokeCard = ({ id, name, image, type }) => {
                         <Typography gutterBottom variant="h5">
                             {name}
                         </Typography>
-
-                        <Typography gutterBottom variant="span">
-                            <Chip label={type} />
-                        </Typography>
-
                     </CardContent>
                 </Box>
             </Card>
+
         </>
     )
 
