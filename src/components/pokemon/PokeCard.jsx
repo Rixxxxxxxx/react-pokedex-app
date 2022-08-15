@@ -9,7 +9,6 @@ const PokeCard = ({ image, id, name }) => {
 
     return (
         <>
-
             <Card sx={{ maxWidth: 345 }}>
 
                 <Link to={`/pokemon/${name}`}>

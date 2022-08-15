@@ -14,14 +14,14 @@ export const PokemonProvider = ({ children }) => {
         getPokemons()
     }, [])
 
-    async function getPokemons() {
+    const getPokemons = async () => {
         setLoading(true)
         const response = await fetch(loadMore);
         const data = await response.json();
         setLoading(false)
         setLoadMore(data.next)
 
-        function getPokemonData(result) {
+        const getPokemonData = async (result) => {
             result.map(async (pokemon) => {
                 const response = await fetch(pokemon.url);
                 const data = await response.json()
@@ -31,11 +31,11 @@ export const PokemonProvider = ({ children }) => {
         getPokemonData(data.results);
     }
 
-    function handleSearchFilter(e) {
+    const handleSearchFilter = e => {
         setFilter(e.target.value);
     }
 
-    async function getPokemon(name) {
+    const getPokemon = async (name) => {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await response.json()
         setPokemon(data)
