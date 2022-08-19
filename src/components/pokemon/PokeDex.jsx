@@ -8,11 +8,17 @@ const PokeDex = () => {
 
     const { pokemons, handleSearchFilter, getPokemons, filter } = useContext(PokemonContext)
 
+    function handleGetPokemons() {
+        getPokemons()
+    }
+
     return (
+
         <Box sx={{ m: 5 }}>
             <Container>
                 {/* Pokemon Search filter */}
                 {/* <input type="text" value={filter} onChange={searchFilter()} placeholder='search ' /> */}
+
                 <TextField
                     sx={{ my: 5 }}
                     label='Search Pokemon'
@@ -20,12 +26,12 @@ const PokeDex = () => {
                     onChange={handleSearchFilter}
                 />
 
-                <Grid container spacing={3}>
+                <Grid container spacing={3} justifyContent='center'>
                     {pokemons.filter((pokemon) => {
                         return filter.toLowerCase() === '' ? pokemon : pokemon.name.toLowerCase().includes(filter);
                     }).map((pokemon, index) =>
                         < Grid
-                            item xs={4}
+                            item xs={12} sm={6} md={4}
                             key={index}
                         >
                             < PokeCard
@@ -50,7 +56,7 @@ const PokeDex = () => {
                         color="primary"
                         size="large"
                         variant="contained"
-                        onClick={() => getPokemons()}
+                        onClick={handleGetPokemons}
                     >
                         Load More
                     </Button>
@@ -62,3 +68,6 @@ const PokeDex = () => {
 }
 
 export default PokeDex
+
+
+

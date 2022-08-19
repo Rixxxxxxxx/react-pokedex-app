@@ -9,6 +9,7 @@ export const PokemonProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [loadMore, setLoadMore] = useState(`https://pokeapi.co/api/v2/pokemon/?limit=21`);
     const [filter, setFilter] = useState('');
+    const [skeletonloader, setSkeletonLoader] = useState(false)
 
     useEffect(() => {
         getPokemons()
@@ -28,7 +29,8 @@ export const PokemonProvider = ({ children }) => {
                 setPokemons(currentPokemon => [...currentPokemon, data]);
             })
         }
-        getPokemonData(data.results);
+        console.log(data.results)
+        await getPokemonData(data.results);
     }
 
     const handleSearchFilter = e => {
@@ -39,7 +41,7 @@ export const PokemonProvider = ({ children }) => {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await response.json()
         setPokemon(data)
-        await console.log(data)
+        // await console.log(data)
     }
 
     return (
@@ -48,6 +50,7 @@ export const PokemonProvider = ({ children }) => {
                 pokemon,
                 pokemons,
                 filter,
+                skeletonloader,
                 getPokemon,
                 getPokemons,
                 handleSearchFilter,
