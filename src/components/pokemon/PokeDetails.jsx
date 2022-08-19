@@ -38,9 +38,8 @@ const PokeDetails = () => {
                     <Grid item xs={12} sm={12} lg={6} xl={6}>
 
                         <Card>
-
-                            {skeletonloader ? (<Skeleton variant="rectangular" height={350} animation='wave' />) :
-                                <CardMedia
+                            {skeletonloader ?
+                                (<CardMedia
                                     component="img"
                                     image={sprites?.other.dream_world.front_default}
                                     alt={name}
@@ -49,21 +48,23 @@ const PokeDetails = () => {
                                         alignItems: 'center',
                                         width: '350px',
                                     }}
-                                />
+                                />)
+                                :
+                                (<Skeleton variant="rectangular" height={350} animation='wave' />)
                             }
 
                             <CardContent>
 
                                 <Typography gutterBottom variant="small" component="div">
-                                    {skeletonloader ? (<Skeleton variant="text" animation='wave' />) : (id)}
+                                    {skeletonloader ? (`#${id}`) : (<Skeleton variant="text" animation='wave' />)}
                                 </Typography>
 
 
                                 <Typography gutterBottom variant="h3" component="div">
-                                    {skeletonloader ? (<Skeleton variant="text" animation='wave' />) : (name)}
+                                    {skeletonloader ? (name) : (<Skeleton variant="text" animation='wave' />)}
                                 </Typography>
 
-                                {skeletonloader ? (<Skeleton variant="text" animation='wave' />) :
+                                {skeletonloader ?
                                     <Box>
                                         {types?.map(({ type }, index) => {
                                             return (
@@ -73,6 +74,8 @@ const PokeDetails = () => {
                                             )
                                         })}
                                     </Box>
+                                    :
+                                    (<Skeleton variant="text" animation='wave' />)
                                 }
 
 
@@ -114,14 +117,14 @@ const PokeDetails = () => {
                                         return (
                                             <Grid item xs={12} sm={12} md={6} key={index}>
                                                 <Typography gutterBottom variant="h5" component="span" >
-                                                    {skeletonloader ? (<Skeleton variant="text" animation='wave' />) : (ability.name)}
+                                                    {skeletonloader ? (ability.name) : (<Skeleton variant="text" animation='wave' />)}
                                                 </Typography>
                                             </Grid>
                                         )
                                     })}
                                 </Grid>
 
-                                {skeletonloader ? (<Skeleton variant="text" animation='wave' />) :
+                                {skeletonloader ?
                                     (
                                         <Typography variant="span" color="text.secondary">
                                             Height: {height},
@@ -129,6 +132,8 @@ const PokeDetails = () => {
                                             Base Experience : {base_experience}
                                         </Typography>
                                     )
+                                    :
+                                    (<Skeleton variant="text" animation='wave' />)
                                 }
 
                                 <Divider />
@@ -137,7 +142,7 @@ const PokeDetails = () => {
                                     Base Stats
                                 </Typography>
 
-                                {skeletonloader ? (<Skeleton variant="text" animation='wave' />) :
+                                {skeletonloader ?
                                     <Box>
                                         {stats?.map(({ stat, base_stat }, index) => {
                                             return (
@@ -151,6 +156,10 @@ const PokeDetails = () => {
                                             )
                                         })}
                                     </Box>
+
+                                    :
+
+                                    (<Skeleton variant="text" animation='wave' />)
                                 }
                             </CardContent>
 
