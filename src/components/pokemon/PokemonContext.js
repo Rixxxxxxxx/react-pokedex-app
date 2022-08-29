@@ -19,6 +19,7 @@ export const PokemonProvider = ({ children }) => {
         const response = await fetch(loadMore);
         const data = await response.json();
         setLoadMore(data.next)
+        setLoading(true)
 
         const getPokemonData = async (result) => {
             result.map(async (pokemon) => {
@@ -27,8 +28,9 @@ export const PokemonProvider = ({ children }) => {
                 setPokemons(currentPokemon => [...currentPokemon, data]);
             })
         }
-        console.log(data.results)
+
         await getPokemonData(data.results);
+
     }
 
     const handleSearchFilter = e => {
@@ -50,6 +52,7 @@ export const PokemonProvider = ({ children }) => {
                 pokemons,
                 filter,
                 skeletonloader,
+                loading,
                 getPokemon,
                 getPokemons,
                 handleSearchFilter,
