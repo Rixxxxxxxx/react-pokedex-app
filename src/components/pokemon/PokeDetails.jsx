@@ -14,7 +14,7 @@ import {
     LinearProgress,
     Skeleton
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import PokemonContext from './PokemonContext';
 
 const PokeDetails = () => {
@@ -68,8 +68,8 @@ const PokeDetails = () => {
                                     <Box>
                                         {types?.map(({ type }, index) => {
                                             return (
-                                                <Typography gutterBottom variant="span">
-                                                    <Chip label={type.name} key={index}></Chip>
+                                                <Typography gutterBottom variant="span" key={index}>
+                                                    <Chip label={type.name}></Chip>
                                                 </Typography>
                                             )
                                         })}

@@ -7,7 +7,7 @@ import Loading from '../Loading'
 
 const PokeDex = () => {
 
-    const { pokemons, handleSearchFilter, getPokemons, filter, loading } = useContext(PokemonContext)
+    const { pokemons, handleSearchFilter, getPokemons, filter, isLoading } = useContext(PokemonContext)
 
     function handleGetPokemons() {
         getPokemons()
@@ -15,39 +15,39 @@ const PokeDex = () => {
 
     return (
         <Box sx={{ m: 5 }}>
-            {loading ? (
-                <Container>
-                    {/* Pokemon Search filter */}
-                    {/* <input type="text" value={filter} onChange={searchFilter()} placeholder='search ' /> */}
-
-                    <TextField
-                        sx={{ my: 5 }}
-                        label='Search Pokemon'
-                        variant='filled'
-                        onChange={handleSearchFilter}
-                    />
-
-                    <Grid container spacing={3} justifyContent='center'>
-                        {pokemons.filter((pokemon) => {
-                            return filter.toLowerCase() === '' ? pokemon : pokemon.name.toLowerCase().includes(filter);
-                        }).map((pokemon, index) =>
-                            < Grid
-                                item xs={12} sm={6} md={4}
-                                key={index}
-                            >
-                                < PokeCard
-                                    id={(pokemon.id)}
-                                    name={pokemon.name}
-                                    image={pokemon.sprites.front_default}
-                                />
-                            </Grid>
-                        )}
-                    </Grid>
-                </Container>
-            )
-                :
+            {isLoading ?
                 (<Loading />)
+                :
+                (
+                    <Container>
+                        {/* Pokemon Search filter */}
+                        {/* <input type="text" value={filter} onChange={searchFilter()} placeholder='search ' /> */}
 
+                        <TextField
+                            sx={{ my: 5 }}
+                            label='Search Pokemon'
+                            variant='filled'
+                            onChange={handleSearchFilter}
+                        />
+
+                        <Grid container spacing={3} justifyContent='center'>
+                            {pokemons.filter((pokemon) => {
+                                return filter.toLowerCase() === '' ? pokemon : pokemon.name.toLowerCase().includes(filter);
+                            }).map((pokemon, index) =>
+                                < Grid
+                                    item xs={12} sm={6} md={4}
+                                    key={index}
+                                >
+                                    < PokeCard
+                                        id={(pokemon.id)}
+                                        name={pokemon.name}
+                                        image={pokemon.sprites.front_default}
+                                    />
+                                </Grid>
+                            )}
+                        </Grid>
+                    </Container>
+                )
             }
 
             <Box

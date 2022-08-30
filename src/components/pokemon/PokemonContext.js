@@ -6,7 +6,7 @@ export const PokemonProvider = ({ children }) => {
 
     const [pokemon, setPokemon] = useState('')
     const [pokemons, setPokemons] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [loadMore, setLoadMore] = useState(`https://pokeapi.co/api/v2/pokemon/?limit=21`);
     const [filter, setFilter] = useState('');
     const [skeletonloader, setSkeletonLoader] = useState(false)
@@ -16,20 +16,27 @@ export const PokemonProvider = ({ children }) => {
     }, [])
 
     const getPokemons = async () => {
-        const response = await fetch(loadMore);
-        const data = await response.json();
-        setLoadMore(data.next)
-        setLoading(true)
 
-        const getPokemonData = async (result) => {
-            result.map(async (pokemon) => {
-                const response = await fetch(pokemon.url);
-                const data = await response.json()
-                setPokemons(currentPokemon => [...currentPokemon, data]);
-            })
+        try {
+            setLoading(true)
+            const response = await fetch(loadMore);
+            const data = await response.json();
+            setLoadMore(data.next)
+
+            const getPokemonData = async (result) => {
+                result.map(async (pokemon) => {
+                    const response = await fetch(pokemon.url);
+                    const data = await response.json()
+                    setPokemons(currentPokemon => [...currentPokemon, data]);
+                })
+            }
+
+            await getPokemonData(data.results);
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(false)
         }
-
-        await getPokemonData(data.results);
 
     }
 
@@ -52,7 +59,7 @@ export const PokemonProvider = ({ children }) => {
                 pokemons,
                 filter,
                 skeletonloader,
-                loading,
+                isLoading,
                 getPokemon,
                 getPokemons,
                 handleSearchFilter,
