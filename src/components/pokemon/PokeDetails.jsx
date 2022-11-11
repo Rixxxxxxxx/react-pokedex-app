@@ -1,4 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
 import {
     Button,
     Container,
@@ -14,15 +16,23 @@ import {
     LinearProgress,
     Skeleton
 } from '@mui/material';
-import { useContext, useEffect } from 'react';
-import PokemonContext from './PokemonContext';
+
 
 const PokeDetails = () => {
 
-    const { getPokemon, pokemon, skeletonloader } = useContext(PokemonContext);
+    const [pokemon, setPokemon] = useState('')
+    const [skeletonloader, setSkeletonLoader] = useState(false)
+
     const params = useParams();
     const { id, name, height, sprites, types, weight, abilities, stats, base_experience } = pokemon;
 
+    const getPokemon = async (name) => {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const data = await response.json()
+        setPokemon(data)
+        setSkeletonLoader(true)
+        // await console.log(data)
+    }
 
     console.log(pokemon)
 

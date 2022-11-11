@@ -1,54 +1,100 @@
-import PokeCard from './PokeCard'
-import { useContext } from 'react'
+import { useState, useEffect } from 'react'
+
 import { Container, Box, Button, Grid, TextField } from '@mui/material'
-// import SearchIcon from '@mui/icons-material/Search';
-import PokemonContext from './PokemonContext'
+
+import PokeCard from './PokeCard'
 import Loading from '../Loading'
+
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 const PokeDex = () => {
 
-    const { pokemons, handleSearchFilter, getPokemons, filter, isLoading } = useContext(PokemonContext)
+    // const [pokemons, setPokemons] = useState([]);
+    const [loadMore, setLoadMore] = useState(`https://pokeapi.co/api/v2/pokemon/?limit=21`);
+    const [filter, setFilter] = useState('');
 
-    function handleGetPokemons() {
-        getPokemons()
+    // const getPokemons = async () => {
+    //     const response = await fetch(loadMore);
+    //     const data = await response.json();
+    //     return data.results
+
+    //     setLoadMore(data.next)
+
+    //     const getPokemonData = async (result) => {
+    //         result.map(async (pokemon) => {
+    //             const response = await fetch(pokemon.url);
+    //             const data = await response.json()
+    //             setPokemons(currentPokemon => [...currentPokemon, data]);
+    //         })
+    //     }
+    //     await getPokemonData(data.results);
+    // }
+
+    const { data, isLoading, isError } = useQuery(["pokemon"], () => {
+
+        return axios.get(loadMore)
+            .then((res) => res.results)
+    })
+
+    if (isLoading) {
+        return <><Loading /></>
+    }
+
+    if (isError) {
+        return <>Error</>
+    }
+
+    const handleSearchFilter = e => {
+        setFilter(e.target.value);
     }
 
     return (
+
         <Box sx={{ m: 5 }}>
-            {isLoading ?
-                (<Loading />)
-                :
-                (
-                    <Container>
-                        {/* Pokemon Search filter */}
-                        {/* <input type="text" value={filter} onChange={searchFilter()} placeholder='search ' /> */}
+            <Container>
+                {/* Pokemon Search filter */}
+                {/* <input type="text" value={filter} onChange={searchFilter()} placeholder='search ' /> */}
+                {/* 
+                <TextField
+                    sx={{ my: 5 }}
+                    label='Search Pokemon'
+                    variant='filled'
+                    onChange={handleSearchFilter}
+                />
 
-                        <TextField
-                            sx={{ my: 5 }}
-                            label='Search Pokemon'
-                            variant='filled'
-                            onChange={handleSearchFilter}
-                        />
-
-                        <Grid container spacing={3} justifyContent='center'>
-                            {pokemons.filter((pokemon) => {
-                                return filter.toLowerCase() === '' ? pokemon : pokemon.name.toLowerCase().includes(filter);
-                            }).map((pokemon, index) =>
-                                < Grid
-                                    item xs={12} sm={6} md={4}
-                                    key={index}
-                                >
-                                    < PokeCard
-                                        id={(pokemon.id)}
-                                        name={pokemon.name}
-                                        image={pokemon.sprites.front_default}
-                                    />
-                                </Grid>
-                            )}
+                <Grid container spacing={3} justifyContent='center'>
+                    {pokemons.filter((pokemon) => {
+                        return filter.toLowerCase() === '' ? pokemon : pokemon.name.toLowerCase().includes(filter);
+                    }).map((pokemon, index) =>
+                        < Grid
+                            item xs={12} sm={6} md={4}
+                            key={index}
+                        >
+                            < PokeCard
+                                id={(pokemon.id)}
+                                name={pokemon.name}
+                                image={pokemon.sprites.front_default}
+                            />
                         </Grid>
-                    </Container>
-                )
-            }
+                    )}
+                </Grid> */}
+
+                <div>
+                    {data.map((pokemon) => {
+                        <div>{pokemon?.name}</div>
+                    })}
+                </div>
+
+                {/* {pokemons.map((pokemon, id) => {
+                    <PokeCard
+                        id={(pokemon.id)}
+                        name={pokemon.name}
+                        image={pokemon.sprites.front_default}
+                    />
+                })} */}
+
+            </Container>
 
             <Box
                 my={4}
@@ -63,7 +109,7 @@ const PokeDex = () => {
                     color="primary"
                     size="large"
                     variant="contained"
-                    onClick={handleGetPokemons}
+                // onClick={getPokemons}
                 >
                     Load More
                 </Button>
